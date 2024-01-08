@@ -21,6 +21,10 @@ function NavigationBar() {
           <Nav.Link as={Link} to="/contacto">
             Contacto
           </Nav.Link>
+
+          <Nav.Link as={Link} to="/contacto">
+            Inicio de sesión
+          </Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

@@ -1,58 +1,35 @@
 import React from "react";
+
+import Buscador from "./Buscador/Buscador";
+import DiscosNovedad from "./Novedades/Novedades";
+import DiscosRecomendacion from "./Recomendaciones/Recomendaciones";
+
 import "./styles.css";
 
 function Home() {
   return (
     <div>
-      <section>
-        <h3>Buscador cds</h3>
-        <div className="search-box">
-        <input
-          type="text"
-          placeholder="Buscar CDs..."
-        />
-        <button>Buscar</button>
-      </div>
+      <Buscador />
+      <section className="descricpion">
+        <h3>La mejor selección de vinilos y cd’s en internet</h3>
+        <p>
+          Desde 2020 en el mundo de la música, buscando e importando las últimas
+          novedades en vinilo e intentando ampliar y enriquecer nuestro catálogo
+          de discos día tras día. En nuestra oferta musical siempre podrás
+          encontrar títulos de coleccionismo de estilos como el jazz, el soul,
+          oldies, indie, punk o el garage, siempre cuidando secciones como la de
+          música country, el southern o lo mejor del rock progresivo. No
+          pretendemos tener todos los productos del mercado, sino una selección
+          de lo que bajo nuestro punto de vista son las referencias más
+          representativas e importantes de cada estilo, eso sí, sin olvidarnos
+          nunca de los últimas publicaciones y de muchos sellos que consideramos
+          puedan ser interesantes para nuestros clientes. Poner a tu alcance la
+          mejor colección discográfica en formato físico es nuestra razón de
+          ser.
+        </p>
       </section>
-      <section>
-        <div>
-          <h3>Novedades musicales</h3>
-        </div>
-        <div>
-          <img src="" alt="caratula disco"></img>
-          <h4>Título disco</h4>
-          <p>Tipo de formato</p>
-          <p>Precio</p>
-          <div>
-            <button>Añadir</button>
-            <button>Comprar</button>
-          </div>
-        </div>
-        <div>
-          <img src="" alt="caratula disco"></img>
-          <h4>Título disco</h4>
-          <p>Tipo de formato</p>
-          <p>Precio</p>
-          <div>
-            <button>Añadir</button>
-            <button>Comprar</button>
-          </div>
-        </div>
-        <div>
-          <img src="" alt="caratula disco"></img>
-          <h4>Título disco</h4>
-          <p>Tipo de formato</p>
-          <p>Precio</p>
-          <div>
-            <button>Añadir</button>
-            <button>Comprar</button>
-          </div>
-        </div>
-        <div>
-          <h3>Ver todos los discos disponibles</h3>
-        </div>
-      </section>
-      <section></section>
+      <DiscosNovedad />
+      <DiscosRecomendacion />
     </div>
   );
 }

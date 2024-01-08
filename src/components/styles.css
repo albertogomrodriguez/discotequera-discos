@@ -1,0 +1,5 @@
+.muestra-discos{
+    display: flex;
+    flex-direction:row;
+    gap: 100px;
+}
