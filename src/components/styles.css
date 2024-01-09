@@ -1,5 +1,36 @@
-.muestra-discos{
-    display: flex;
-    flex-direction:row;
-    gap: 100px;
+.muestra-discos {
+  display: flex;
+  flex-direction: row;
+  gap: 100px;
+}
+
+/* styles.css */
+/* styles.css */
+.navbar-custom {
+  background-color: #343a40;
+  color: #ffffff;
+}
+
+.navbar-nav {
+  width: 100%;
+}
+
+.navbar-nav .nav-link {
+  color: #ffffff !important;
+  margin-right: 55px; /* Espacio entre los enlaces */
+}
+
+.navbar-nav .nav-link:hover {
+  color: #17a2b8 !important;
+}
+
+.login {
+  display: flex;
+
+  margin-right: 0px;
+}
+
+.basic-navbar-nav {
+  display: flex;
+  flex-direction: row;
 }

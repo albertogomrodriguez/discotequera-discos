@@ -5,6 +5,7 @@ import DiscosNovedad from "./Novedades/Novedades";
 import DiscosRecomendacion from "./Recomendaciones/Recomendaciones";
 
 import "./styles.css";
+import Login from "./Login";
 
 function Home() {
   return (

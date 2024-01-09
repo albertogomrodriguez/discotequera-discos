@@ -1,19 +1,28 @@
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import "./styles.css"; 
+import { Link, useNavigate } from "react-router-dom";
+import "./styles.css";
 
 function NavigationBar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    console.log("Cierre de sesión iniciado");
+    localStorage.removeItem("authToken");
+    navigate("/");
+    console.log("Cierre de sesión realizado");
+  };
+
   return (
     <Navbar className="navbar-custom" expand="lg">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="ml-auto">
-        <Nav.Link as={Link} to="/">
-           Discotequera Discos
+        <Nav className="mr-auto">
+          <Nav.Link as={Link} to="/">
+            Discotequera Discos
           </Nav.Link>
           <Nav.Link as={Link} to="/nacional">
-           Nacional
+            Nacional
           </Nav.Link>
           <Nav.Link as={Link} to="/internacional">
             Internacional
@@ -21,9 +30,10 @@ function NavigationBar() {
           <Nav.Link as={Link} to="/contacto">
             Contacto
           </Nav.Link>
-
-          <Nav.Link as={Link} to="/contacto">
-            Inicio de sesión
+        </Nav>
+        <Nav className="login">
+          <Nav.Link as={Link} to="/" onClick={handleLogout}>
+            Cerrar sesión
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
