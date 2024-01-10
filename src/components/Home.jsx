@@ -2,10 +2,9 @@ import React from "react";
 
 import Buscador from "./Buscador/Buscador";
 import DiscosNovedad from "./Novedades/Novedades";
-import DiscosRecomendacion from "./Recomendaciones/Recomendaciones";
+import TopArtistas from "./TopArtistas/TopArtistas";
 
 import "./styles.css";
-import Login from "./Login";
 
 function Home() {
   return (
@@ -30,7 +29,7 @@ function Home() {
         </p>
       </section>
       <DiscosNovedad />
-      <DiscosRecomendacion />
+      <TopArtistas />
     </div>
   );
 }
