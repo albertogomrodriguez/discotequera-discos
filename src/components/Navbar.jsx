@@ -1,18 +1,9 @@
+// Navbar.js
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
-import "./styles.css";
+import { Link } from "react-router-dom";
 
-function NavigationBar() {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    console.log("Cierre de sesión iniciado");
-    localStorage.removeItem("authToken");
-    navigate("/");
-    console.log("Cierre de sesión realizado");
-  };
-
+function NavigationBar({ handleLogout }) {
   return (
     <Navbar className="navbar-custom" expand="lg">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -21,11 +12,8 @@ function NavigationBar() {
           <Nav.Link as={Link} to="/">
             Discotequera Discos
           </Nav.Link>
-          <Nav.Link as={Link} to="/nacional">
-            Nacional
-          </Nav.Link>
-          <Nav.Link as={Link} to="/internacional">
-            Internacional
+          <Nav.Link as={Link} to="/discos">
+            Discos
           </Nav.Link>
           <Nav.Link as={Link} to="/contacto">
             Contacto

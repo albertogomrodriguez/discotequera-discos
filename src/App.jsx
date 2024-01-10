@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 
 // Componentes
@@ -21,7 +16,6 @@ function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
 
-  // Función para verificar la autenticación del usuario al cargar la aplicación
   const checkUserAuthentication = () => {
     const isAuthenticated = localStorage.getItem("isLoggedIn") === "true";
     if (isAuthenticated) {
@@ -33,7 +27,7 @@ function App() {
 
   useEffect(() => {
     checkUserAuthentication();
-  }, []); // Se ejecutará solo una vez al cargar la aplicación
+  }, []);
 
   const handleLogin = (username) => {
     localStorage.setItem("isLoggedIn", "true");
