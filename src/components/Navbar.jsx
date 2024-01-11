@@ -20,6 +20,9 @@ function NavigationBar({ handleLogout }) {
           </Nav.Link>
         </Nav>
         <Nav className="login">
+          <Nav.Link as={Link} to="/perfil">
+            Mi perfil
+          </Nav.Link>
           <Nav.Link as={Link} to="/" onClick={handleLogout}>
             Cerrar sesión
           </Nav.Link>

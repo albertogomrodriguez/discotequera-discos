@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 function DiscosRecomendados() {
   const [albums, setAlbums] = useState([]);
+  const [loading, setLoading] = useState(true);
   const numberOfAlbumsToShow = 4;
 
   useEffect(() => {
@@ -47,62 +48,89 @@ function DiscosRecomendados() {
         const recommendedAlbums =
           data?.tracks.map((track) => track.album) || [];
         setAlbums(recommendedAlbums.slice(0, numberOfAlbumsToShow));
+        setLoading(false);
       } catch (error) {
         console.error("Error:", error.message);
+        setLoading(false);
       }
     };
 
     fetchRecommendedAlbums();
   }, [numberOfAlbumsToShow]);
 
+  const handleAddToLocalStorage = (album) => {
+    try {
+      // Obtener la lista actual de álbumes favoritos del localStorage
+      const savedAlbums = JSON.parse(localStorage.getItem("savedAlbums")) || [];
+
+      // Verificar si el álbum ya está en la lista antes de agregarlo
+      if (!savedAlbums.some((savedAlbum) => savedAlbum.id === album.id)) {
+        // Agregar el nuevo álbum a la lista
+        savedAlbums.push(album);
+
+        // Actualizar el localStorage
+        localStorage.setItem("savedAlbums", JSON.stringify(savedAlbums));
+      }
+    } catch (error) {
+      console.error(
+        "Error al agregar el álbum al localStorage:",
+        error.message
+      );
+    }
+  };
+
   return (
     <section className="recomendaciones-discos">
       <div>
         <h3>Selección de golpes por Discotequera Discos</h3>
       </div>
-      <div className="muestra-discos">
-        {albums.map((album) => (
-          <div key={album.id}>
-            <a
-              href={album.external_urls.spotify}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src={album.images[1]?.url}
-                alt={`caratula ${album.name} disco`}
-              />
-            </a>
-            <div>
-              <h4>
-                <a
-                  href={album.external_urls.spotify}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {album.name}
-                </a>
-              </h4>
-              <h5>
-                <a
-                  href={album.artists[0]?.external_urls.spotify}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {album.artists[0]?.name}
-                </a>
-              </h5>
+      {loading ? (
+        <p>Cargando...</p>
+      ) : (
+        <div className="muestra-discos">
+          {albums.map((album) => (
+            <div key={album.id}>
+              <a
+                href={album.external_urls.spotify}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={album.images[1]?.url}
+                  alt={`caratula ${album.name} disco`}
+                />
+              </a>
+              <div>
+                <h4>
+                  <a
+                    href={album.external_urls.spotify}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {album.name}
+                  </a>
+                </h4>
+                <h5>
+                  <a
+                    href={album.artists[0]?.external_urls.spotify}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {album.artists[0]?.name}
+                  </a>
+                </h5>
+              </div>
+              <div>
+                <button onClick={() => handleAddToLocalStorage(album)}>
+                  Añadir
+                </button>
+                <button>Comprar</button>
+              </div>
             </div>
-            {/* Puedes agregar más detalles del álbum según sea necesario */}
-            <div>
-              <button>Añadir</button>
-              <button>Comprar</button>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
       <div>
-        {/* Enlace para ver todos los álbums */}
         <a href="/todos-los-discos">Ver todos los álbums recomendados</a>
       </div>
     </section>

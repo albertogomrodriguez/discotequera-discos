@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import Login from "./components/Login";
 import Error from "./components/Error";
 import NotFound from "./components/NotFound";
+import Perfil from "./components/Perfil";
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -39,6 +40,7 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("username");
+    localStorage.removeItem("savedAlbums");
     setLoggedIn(false);
     setUsername("");
   };
@@ -53,6 +55,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/discos" element={<Discos />} />
               <Route path="/contacto" element={<Contacto />} />
+              <Route path="/perfil" element={<Perfil />} />
               <Route path="/error" element={<Error />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

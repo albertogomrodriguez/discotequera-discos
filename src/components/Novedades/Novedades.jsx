@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 function DiscosNovedad() {
   const [albums, setAlbums] = useState([]);
+  const [loading, setLoading] = useState(true);
   const numberOfAlbumsToShow = 4;
 
   useEffect(() => {
@@ -46,46 +47,81 @@ function DiscosNovedad() {
         }
 
         const data = await response.json();
-        const albums = data?.albums?.items || [];
-        setAlbums(albums.slice(0, numberOfAlbumsToShow));
+        const albumsData = data?.albums?.items || [];
+
+        // Almacena los detalles de álbumes en el estado sin afectar el localStorage
+        setAlbums(
+          albumsData.slice(0, numberOfAlbumsToShow).map((album) => ({
+            name: album.name,
+            url: album.external_urls.spotify,
+            imageUrl: album.images[1]?.url,
+            artist: album.artists[0]?.name,
+          }))
+        );
+
+        setLoading(false);
       } catch (error) {
         console.error("Error:", error.message);
+        setLoading(false);
       }
     };
 
     fetchAlbums();
   }, [numberOfAlbumsToShow]);
 
+  const handleAddToLocalStorage = (album) => {
+    try {
+      // Obtener la lista actual de álbumes favoritos del localStorage
+      const savedAlbums = JSON.parse(localStorage.getItem("savedAlbums")) || [];
+
+      // Verificar si el álbum ya está en la lista antes de agregarlo
+      if (!savedAlbums.some((savedAlbum) => savedAlbum.url === album.url)) {
+        // Agregar el nuevo álbum a la lista
+        savedAlbums.push(album);
+
+        // Actualizar el localStorage
+        localStorage.setItem("savedAlbums", JSON.stringify(savedAlbums));
+      }
+    } catch (error) {
+      console.error(
+        "Error al agregar el álbum al localStorage:",
+        error.message
+      );
+    }
+  };
+
   return (
     <section className="novedades-discos">
       <div>
         <h3>Novedades musicales</h3>
       </div>
-      <div className="muestra-discos">
-        {albums.map((album) => (
-          <div key={album.id}>
-            <a
-              href={album.external_urls.spotify}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src={album.images[1]?.url}
-                alt={`caratula ${album.name} disco`}
-              />
-              <h4>{album.name}</h4>
-              <h5>{album.artists[0]?.name}</h5>
-            </a>
-            {/* Puedes agregar más detalles del álbum según sea necesario */}
-            <div>
-              <button>Añadir</button>
-              <button>Comprar</button>
+      {loading ? (
+        <p>Cargando...</p>
+      ) : (
+        <div className="muestra-discos">
+          {albums.map((album, index) => (
+            <div key={index}>
+              <a href={album.url} target="_blank" rel="noopener noreferrer">
+                <img
+                  src={album.imageUrl}
+                  alt={`caratula ${album.name} disco`}
+                />
+                <div>
+                  <h4>{album.name}</h4>
+                  <p>Artista: {album.artist}</p>
+                </div>
+              </a>
+              <div>
+                <button onClick={() => handleAddToLocalStorage(album)}>
+                  Añadir a favoritos
+                </button>
+                <button>Comprar</button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
       <div>
-        {/* Enlace para ver todos los álbums */}
         <a href="/todos-los-discos">Ver todos los álbums</a>
       </div>
     </section>
