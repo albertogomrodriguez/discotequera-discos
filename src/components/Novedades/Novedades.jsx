@@ -12,7 +12,6 @@ function DiscosNovedad() {
         const clientSecret = "d8e949e9d8ed485e9d16654335845319";
         const tokenEndpoint = "https://accounts.spotify.com/api/token";
 
-        // Obtener token de acceso de Spotify
         const tokenResponse = await fetch(tokenEndpoint, {
           method: "POST",
           headers: {
@@ -29,7 +28,6 @@ function DiscosNovedad() {
         const tokenData = await tokenResponse.json();
         const accessToken = tokenData.access_token;
 
-        // Obtener los nuevos lanzamientos de Spotify
         const response = await fetch(
           "https://api.spotify.com/v1/browse/new-releases",
           {
@@ -49,7 +47,6 @@ function DiscosNovedad() {
         const data = await response.json();
         const albumsData = data?.albums?.items || [];
 
-        // Almacena los detalles de álbumes en el estado sin afectar el localStorage
         setAlbums(
           albumsData.slice(0, numberOfAlbumsToShow).map((album) => ({
             name: album.name,
@@ -71,7 +68,6 @@ function DiscosNovedad() {
 
   const handleAddToLocalStorage = (album) => {
     try {
-      // Obtener la lista actual de álbumes favoritos del localStorage
       const savedAlbums = JSON.parse(localStorage.getItem("savedAlbums")) || [];
 
       // Verificar si el álbum ya está en la lista antes de agregarlo

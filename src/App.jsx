@@ -12,6 +12,7 @@ import Login from "./components/Login";
 import Error from "./components/Error";
 import NotFound from "./components/NotFound";
 import Perfil from "./components/Perfil";
+import ResultadosBusqueda from "./components/ResultadosBusqueda";
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -56,6 +57,12 @@ function App() {
               <Route path="/discos" element={<Discos />} />
               <Route path="/contacto" element={<Contacto />} />
               <Route path="/perfil" element={<Perfil />} />
+              <Route
+                path="/search/:busquedaId"
+                element={<ResultadosBusqueda />}
+              />
+
+              {/* Rutas error*/}
               <Route path="/error" element={<Error />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
@@ -64,6 +71,7 @@ function App() {
         ) : (
           <Routes>
             <Route path="/" element={<Login handleLogin={handleLogin} />} />
+            {/* Rutas error*/}
             <Route path="/error" element={<Error />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

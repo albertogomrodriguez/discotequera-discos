@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import ResultadosBusqueda from "../ResultadosBusqueda"; // Asegúrate de ajustar la ruta correcta
 
 async function searchSpotify(query, accessToken) {
   try {
@@ -36,20 +38,24 @@ async function searchSpotify(query, accessToken) {
 }
 
 function Buscador() {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showSearchTag, setShowSearchTag] = useState(false);
 
+  useEffect(() => {
+    console.log("searchResults actualizado:", searchResults);
+  }, [searchResults]);
+
   const handleSearch = async () => {
     try {
       setLoading(true);
 
-      const clientId = "603135e3304a47d1933ce7e43c29416c"; // Reemplazar con tu propio cliente ID de Spotify
-      const clientSecret = "d8e949e9d8ed485e9d16654335845319"; // Reemplazar con tu propio cliente secreto de Spotify
+      const clientId = "603135e3304a47d1933ce7e43c29416c";
+      const clientSecret = "d8e949e9d8ed485e9d16654335845319";
       const tokenEndpoint = "https://accounts.spotify.com/api/token";
 
-      // Obtener token de acceso de Spotify de manera similar a DiscosNovedad
       const tokenResponse = await fetch(tokenEndpoint, {
         method: "POST",
         headers: {
@@ -69,11 +75,19 @@ function Buscador() {
       // Realizar búsqueda en Spotify
       if (searchQuery.trim() !== "") {
         const results = await searchSpotify(searchQuery, accessToken);
-        const limitedResults = results.slice(0, 4); // Obtener solo los primeros 4 resultados
+        console.log("Resultados en Buscador:", results);
+
+        const limitedResults = results.slice(0, 4);
+        console.log("Results.slice", limitedResults);
         setSearchResults(limitedResults);
+        console.log(setSearchResults)
         setShowSearchTag(true);
+
+        // Navegar a la página de resultados de búsqueda con el query como parámetro
+        navigate(`/search/${encodeURIComponent(searchQuery)}`);
       } else {
         setSearchResults([]);
+
         setShowSearchTag(false);
       }
     } finally {
@@ -109,43 +123,12 @@ function Buscador() {
           </div>
         )}
       </div>
-
       {loading && <p>Cargando...</p>}
-
-      <div className="muestra-discos">
-        {searchResults.map((album) => (
-          <div key={album.url}>
-            <a href={album.url} target="_blank" rel="noopener noreferrer">
-              <img src={album.imageUrl} alt={`carátula ${album.name} disco`} />
-            </a>
-            <div>
-              <h4>
-                <a href={album.url} target="_blank" rel="noopener noreferrer">
-                  {album.name}
-                </a>
-              </h4>
-              <h5>
-                {album.artists.map((artist) => (
-                  <span key={artist.url}>
-                    <a
-                      href={artist.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {artist.name}
-                    </a>{" "}
-                  </span>
-                ))}
-              </h5>
-            </div>
-            {/* Puedes agregar más detalles del álbum según sea necesario */}
-            <div>
-              <button>Añadir</button>
-              <button>Comprar</button>
-            </div>
-          </div>
-        ))}
-      </div>
+      {/* 
+        Pasar los resultados de la búsqueda al componente ResultadosBusqueda 
+        como propiedades (albums) 
+      */}
+      <ResultadosBusqueda albums={searchResults} />
       <div>
         {/* Enlace para ver todos los resultados */}
         <a href="/todos-los-cds">Ver todos los CDs</a>
